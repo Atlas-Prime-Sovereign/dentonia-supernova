@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supernova Model: Origin Trigger Cascade Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+            background: #f9fafb;
+        }
+        .origin-trigger-glow {
+            animation: origin-pulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.8));
+        }
+        @keyframes origin-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        .cascade-line {
+            stroke: #fbbf24;
+            stroke-width: 4;
+            stroke-dasharray: 10,5;
+            animation: flow 2s linear infinite;
+            opacity: 0.8;
+        }
+        @keyframes flow {
+            to { stroke-dashoffset: -15; }
+        }
+        .tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: #f3f4f6;
+            border: 3px solid #ef4444;
+            padding: 16px;
+            border-radius: 12px;
+            pointer-events: none;
+            opacity: 0;
+            max-width: 450px;
+            z-index: 1000;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .section {
+            min-height: 100vh;
+            padding: 3rem 1rem;
+        }
+    </style>
+</head>
+<body>
+<div style="position: fixed; top: 0; left: 0; right: 0; z-index: 10000; background: linear-gradient(90deg, #1e293b 0%, #334155 100%); border-bottom: 2px solid #60a5fa; backdrop-filter: blur(10px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <a href="index.html" style="color: #60a5fa; text-decoration: none; font-weight: bold; font-size: 1.1rem;">🏠 Home</a>
+        <div style="display: flex; gap: 2rem;">
+            <a href="supernova_forensic_framework.html" style="color: #60a5fa; text-decoration: none; transition: color 0.3s;">📊 Forensic Framework</a>
+            <a href="supernova_emergent_systems.html" style="color: #a78bfa; text-decoration: none; transition: color 0.3s;">🌀 Emergent Systems</a>
+        </div>
+    </div>
+</div>
+<div style="height: 70px;"></div>
+
+
+<!-- TITLE SECTION -->
+
+<div class="section bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <div class="text-6xl font-black mb-4">Supernova Model</div>
+            <div class="text-3xl font-light text-purple-200 mb-8">Origin Trigger Cascade Analysis</div>
+            <div class="text-xl text-gray-300 mb-4">Dentonia Park Housing Co-operative: August 2023 - October 2025</div>
+
+```
+        <div class="bg-white/10 backdrop-blur rounded-2xl p-8 max-w-4xl mx-auto">
+            <div class="text-2xl font-bold mb-4 text-yellow-300">🔴 THE ORIGIN TRIGGER</div>
+            <div class="text-lg leading-relaxed text-left">
+                <p class="mb-3"><strong>August 1, 2023:</strong> Sean Manners files formal CHFT complaint disclosing governance violations by Helen McGarry (President) and Sarah Boodlal (Property Manager).</p>
+                <p class="mb-3"><strong>This single whistleblowing act triggers:</strong></p>
+                <ul class="list-disc list-inside space-y-2 ml-4">
+                    <li>Immediate retaliation: Notice to Appear (Aug 28, 2023)</li>
+                    <li>Escalating harassment campaign (2023-2024)</li>
+                    <li>Sarah's termination by legitimate board (Jan 18, 2025)</li>
+                    <li>Weaponized harassment investigation (Oct 2024 - Oct 2025)</li>
+                    <li>Final "poisoned workplace" finding (Oct 28, 2025)</li>
+                    <li>Terminal NTA: $11,000, 0 days notice (Oct 30, 2025)</li>
+                </ul>
+                <p class="mt-4 font-bold text-yellow-200">26 months from origin trigger to terminal retaliation.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-6 text-center">
+        <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+            <div class="text-4xl font-bold text-cyan-300">22</div>
+            <div class="text-sm">Trigger Events</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+            <div class="text-4xl font-bold text-red-400">54</div>
+            <div class="text-sm">Retaliatory Acts</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+            <div class="text-4xl font-bold text-yellow-300">2.45</div>
+            <div class="text-sm">P-Ratio (ρ)</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+            <div class="text-4xl font-bold text-orange-400">27</div>
+            <div class="text-sm">Months</div>
+        </div>
+    </div>
+</div>
+```
+
+</div>
+
+<!-- CASCADE DEMONSTRATION -->
+
+<div class="section bg-white">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-5xl font-black text-gray-900 mb-12 text-center">The Origin Cascade: How August 2023 Created October 2025</h1>
+
+```
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-4 border-blue-500">
+            <div class="text-3xl font-black text-blue-700 mb-4">⚡ ORIGIN</div>
+            <div class="text-lg font-bold text-blue-900 mb-3">Aug 1, 2023</div>
+            <div class="text-sm text-gray-800 leading-relaxed">
+                <p class="font-semibold mb-2">CHFT Whistleblowing Disclosure</p>
+                <p>Sean reports Helen McGarry & Sarah Boodlal for:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Conflicts of interest</li>
+                    <li>Nepotism (Abby, Jamie)</li>
+                    <li>Financial irregularities</li>
+                    <li>Governance violations</li>
+                </ul>
+                <div class="mt-4 p-3 bg-blue-200 rounded-lg font-bold text-blue-900">
+                    THIS COMPLAINT NAMED SARAH SPECIFICALLY
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-8 border-4 border-amber-500">
+            <div class="text-3xl font-black text-amber-700 mb-4">🎯 TRIGGER</div>
+            <div class="text-lg font-bold text-amber-900 mb-3">Jan 18, 2025</div>
+            <div class="text-sm text-gray-800 leading-relaxed">
+                <p class="font-semibold mb-2">Sarah Boodlal Termination</p>
+                <p>Legitimate board (elected Nov 14, 2024) terminates Sarah for cause:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>File concealment (March 2025)</li>
+                    <li>False police report (arson)</li>
+                    <li>Sister unit allocation</li>
+                    <li>Privacy breaches</li>
+                </ul>
+                <div class="mt-4 p-3 bg-amber-200 rounded-lg font-bold text-amber-900">
+                    LINKED TO AUGUST 2023 COMPLAINT
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 border-4 border-red-600">
+            <div class="text-3xl font-black text-red-700 mb-4">💥 RETALIATION</div>
+            <div class="text-lg font-bold text-red-900 mb-3">Oct 28, 2025</div>
+            <div class="text-sm text-gray-800 leading-relaxed">
+                <p class="font-semibold mb-2">"Poisoned Workplace" Finding</p>
+                <p>After 13-month investigation:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Concluded Oct 28, 2025</li>
+                    <li>Finding: "Poisoned environment"</li>
+                    <li>Oct 30: $11,000 NTA (0 days)</li>
+                    <li>Hearing postponed Nov 3</li>
+                </ul>
+                <div class="mt-4 p-3 bg-red-200 rounded-lg font-bold text-red-900">
+                    26 MONTHS FROM ORIGIN
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Arrow -->
+    <div class="relative h-32 mb-12">
+        <svg class="w-full h-full">
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#ef4444" />
+                </marker>
+            </defs>
+            <line x1="10%" y1="50%" x2="90%" y2="50%" 
+                  stroke="#ef4444" 
+                  stroke-width="6" 
+                  stroke-dasharray="15,5"
+                  marker-end="url(#arrowhead)" 
+                  class="cascade-line" />
+            <text x="50%" y="35%" text-anchor="middle" font-size="18" font-weight="bold" fill="#dc2626">
+                26-MONTH CASCADE
+            </text>
+            <text x="50%" y="70%" text-anchor="middle" font-size="14" fill="#991b1b">
+                August 2023 → October 2025
+            </text>
+        </svg>
+    </div>
+
+    <!-- Causal Chain Analysis -->
+    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-10 border-l-8 border-purple-600">
+        <h2 class="text-3xl font-black text-purple-900 mb-6">🔗 The Causal Chain</h2>
+        <div class="space-y-4 text-gray-800">
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">1️⃣</div>
+                <div>
+                    <strong class="text-purple-900">August 1, 2023:</strong> CHFT complaint explicitly names Sarah Boodlal and Helen McGarry for governance violations. <span class="font-bold text-purple-700">This is the origin trigger.</span>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">2️⃣</div>
+                <div>
+                    <strong class="text-purple-900">August 28, 2023:</strong> Immediate retaliation: Notice to Appear (termination) issued 27 days after complaint. <span class="font-bold text-purple-700">Retaliation begins.</span>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">3️⃣</div>
+                <div>
+                    <strong class="text-purple-900">2023-2024:</strong> Escalating harassment campaign: surveillance, arrears inflation, floods, extortion attempts, family targeting. <span class="font-bold text-purple-700">Pattern established.</span>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">4️⃣</div>
+                <div>
+                    <strong class="text-purple-900">November 14, 2024:</strong> Members democratically remove Helen McGarry. New legitimate board governs. <span class="font-bold text-purple-700">Democratic remedy attempted.</span>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">5️⃣</div>
+                <div>
+                    <strong class="text-purple-900">January 18, 2025:</strong> Legitimate board terminates Sarah Boodlal for cause — the SAME PERSON named in August 2023 CHFT complaint. <span class="font-bold text-purple-700">Accountability action.</span>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">6️⃣</div>
+                <div>
+                    <strong class="text-purple-900">October 2024 - October 2025:</strong> 13-month "harassment investigation" launched. Timeline suggests this was weaponized in response to Sarah's termination. <span class="font-bold text-purple-700">Retaliatory investigation.</span>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">7️⃣</div>
+                <div>
+                    <strong class="text-purple-900">October 28, 2025:</strong> Investigation concludes with "poisoned workplace environment" finding against Sean and family. <span class="font-bold text-purple-700">Weaponized outcome.</span>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">8️⃣</div>
+                <div>
+                    <strong class="text-purple-900">October 30, 2025:</strong> $11,000 NTA issued with 0 days notice — 48 hours after investigation findings. <span class="font-bold text-purple-700">Terminal retaliation.</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 p-6 bg-red-100 border-4 border-red-500 rounded-xl">
+            <div class="text-2xl font-black text-red-900 mb-3">⚠️ CRITICAL INSIGHT</div>
+            <div class="text-red-900 leading-relaxed">
+                <p class="mb-3">The October 2025 "poisoned workplace" finding and terminal NTA are <strong>direct retaliations</strong> for:</p>
+                <ol class="list-decimal list-inside space-y-2 ml-4">
+                    <li><strong>August 2023 CHFT complaint</strong> (naming Sarah & Helen)</li>
+                    <li><strong>January 2025 termination of Sarah</strong> (accountability for August 2023 complaint)</li>
+                </ol>
+                <p class="mt-4 font-bold">This demonstrates how <strong>origin triggers cascade across years</strong>, creating delayed but devastating retaliations. The "harassment" investigation was launched to punish Sean for reporting Sarah in 2023 and terminating her in 2025.</p>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+</div>
+
+<!-- ENHANCED NETWORK VISUALIZATION -->
+
+<div class="section bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-5xl font-black mb-4 text-center">Complete Network: 22 Triggers × 54 Retaliations</h1>
+        <p class="text-xl text-gray-300 text-center mb-12">With Origin Cascade Highlighted (Gold Lines)</p>
+
+```
+    <div class="bg-white rounded-2xl p-8">
+        <div id="network-viz" style="min-height: 1400px;"></div>
+    </div>
+
+    <div class="mt-8 grid grid-cols-2 gap-6">
+        <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+            <div class="font-bold text-yellow-400 text-xl mb-4">🔗 Origin Cascade (Gold Dashed Lines)</div>
+            <div class="text-gray-300 space-y-2 text-sm">
+                <p><strong>Aug 1, 2023</strong> → Aug 28, 2023 NTA</p>
+                <p><strong>Aug 1, 2023</strong> → Jan 18, 2025 Sarah termination</p>
+                <p><strong>Jan 18, 2025</strong> → Oct 2024-2025 harassment investigation</p>
+                <p><strong>Harassment investigation</strong> → Oct 28, 2025 findings</p>
+                <p><strong>Oct 28, 2025</strong> → Oct 30, 2025 $11K NTA</p>
+            </div>
+        </div>
+        <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+            <div class="font-bold text-red-400 text-xl mb-4">📊 Pattern Analysis</div>
+            <div class="text-gray-300 space-y-2 text-sm">
+                <p><strong>P-Ratio:</strong> 2.45:1 (54 retaliations ÷ 22 triggers)</p>
+                <p><strong>Stage 3 Ratio:</strong> 3.00:1 (27 retaliations ÷ 9 triggers)</p>
+                <p><strong>Longest Cascade:</strong> 26 months (Aug 2023 → Oct 2025)</p>
+                <p><strong>Criminal Flags:</strong> 9 documented</p>
+                <p><strong>External Enablers:</strong> 18 acts (CHFT, Agency, Hackl)</p>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+</div>
+
+<div class="tooltip"></div>
+
+<script>
+// PRECISE NETWORK DATA WITH EXACT LABELS
+const networkData = {
+    nodes: [
+        // STAGE 1 TRIGGERS
+        { id: 'T1', type: 'trigger', stage: 1, label: 'CHFT Whistleblowing Disclosure', date: 'Aug 1, 2023', 
+          description: 'Formal complaint naming Helen McGarry & Sarah Boodlal for governance violations', 
+          origin: true, actor: 'Sean Manners', y: 0.02 },
+        { id: 'T2', type: 'trigger', stage: 1, label: 'Director requisition (CCA §78)', date: 'Sept 10, 2023', actor: 'Sean', y: 0.06 },
+        { id: 'T3', type: 'trigger', stage: 1, label: 'Complaint escalated to board', date: 'Oct 5, 2023', actor: 'Sean', y: 0.10 },
+        { id: 'T4', type: 'trigger', stage: 1, label: 'Member support petition', date: 'Nov 10, 2023', actor: 'Members', y: 0.14 },
+        { id: 'T5', type: 'trigger', stage: 1, label: 'Conflict of interest complaint', date: 'Dec 1, 2023', actor: 'Sean', y: 0.17 },
+        { id: 'T6', type: 'trigger', stage: 1, label: 'Payment attempts made', date: 'Jan 15, 2024', actor: 'Sean', y: 0.20 },
+        
+        // STAGE 1 RETALIATIONS
+        { id: 'R1', type: 'retaliation', stage: 1, label: 'Confidentiality breach (CHFT→Helen)', date: 'Aug 1, 2023', 
+          description: 'CHFT disclosed complaint contents to Helen & Sarah', enabler: true, criminal: true, actor: 'CHFT', y: 0.02 },
+        { id: 'R2', type: 'retaliation', stage: 1, label: 'Notice to Appear (Termination)', date: 'Aug 28, 2023', 
+          description: '27 days after CHFT complaint - first retaliation', actor: 'Board/Helen', y: 0.03 },
+        { id: 'R3', type: 'retaliation', stage: 1, label: 'Surveillance cameras installed', date: 'Aug 2023', actor: 'Helen', y: 0.04 },
+        { id: 'R4', type: 'retaliation', stage: 1, label: 'Daughter Abby appointed (nepotism)', date: 'Aug 20, 2023', pecuniary: true, actor: 'Helen', y: 0.05 },
+        { id: 'R5', type: 'retaliation', stage: 1, label: 'Director requisition ignored (CCA violation)', date: 'Sept 20, 2023', actor: 'Scott', y: 0.07 },
+        { id: 'R6', type: 'retaliation', stage: 1, label: 'Harassment campaign begins', date: 'Sept 25, 2023', actor: 'Sarah/Helen', y: 0.08 },
+        { id: 'R7', type: 'retaliation', stage: 1, label: 'Building records access denied', date: 'Oct 10, 2023', actor: 'Scott', y: 0.10 },
+        { id: 'R8', type: 'retaliation', stage: 1, label: 'False narrative circulated', date: 'Oct 20, 2023', actor: 'Bernice', y: 0.11 },
+        { id: 'R9', type: 'retaliation', stage: 1, label: 'Board meeting access obstructed', date: 'Nov 12, 2023', actor: 'Scott', y: 0.14 },
+        { id: 'R10', type: 'retaliation', stage: 1, label: 'Jamie camera contract ($12,538)', date: 'Nov 20, 2023', pecuniary: true, actor: 'Helen', y: 0.15 },
+        { id: 'R11', type: 'retaliation', stage: 1, label: 'First extortion attempt (father)', date: 'Dec 13, 2023', 
+          description: 'Hackl/Scott threaten father with eviction', criminal: true, actor: 'Hackl/Scott', y: 0.17 },
+        { id: 'R12', type: 'retaliation', stage: 1, label: 'Arrears artificially inflated', date: 'Dec 15, 2023', pecuniary: true, actor: 'PM Office', y: 0.18 },
+        { id: 'R13', type: 'retaliation', stage: 1, label: 'Flood #1 (Dec 23)', date: 'Dec 23, 2023', criminal: true, actor: 'Unknown', y: 0.19 },
+        { id: 'R14', type: 'retaliation', stage: 1, label: 'Member communications exclusion', date: 'Jan 5, 2024', actor: 'Scott', y: 0.20 },
+        { id: 'R15', type: 'retaliation', stage: 1, label: 'Unit door intimidation', date: 'Jan 20, 2024', actor: 'Helen/Bernice', y: 0.21 },
+        
+        // STAGE 2 TRIGGERS
+        { id: 'T7', type: 'trigger', stage: 2, label: 'Board meeting attendance', date: 'Mar 10, 2024', actor: 'Sean', y: 0.28 },
+        { id: 'T8', type: 'trigger', stage: 2, label: 'Agency complaint filed', date: 'Apr 15, 2024', actor: 'Sean', y: 0.32 },
+        { id: 'T9', type: 'trigger', stage: 2, label: 'CMHC fraud reported', date: 'June 1, 2024', actor: 'Sean', y: 0.36 },
+        { id: 'T10', type: 'trigger', stage: 2, label: 'Requisition: Helen McGarry removal', date: 'Sept 7, 2024', 
+          description: 'Democratic petition to remove Helen assembled', actor: 'Members', y: 0.40 },
+        { id: 'T11', type: 'trigger', stage: 2, label: 'GMM requisition filed (CCA §46)', date: 'Oct 10, 2024', actor: 'Members', y: 0.44 },
+        { id: 'T12', type: 'trigger', stage: 2, label: 'Evidence shared with members', date: 'Oct 25, 2024', actor: 'Sean', y: 0.47 },
+        { id: 'T13', type: 'trigger', stage: 2, label: 'GMM removes Helen McGarry', date: 'Nov 14, 2024', 
+          description: 'Members democratically vote Helen out', highlight: true, actor: 'Members', y: 0.50 },
+        
+        // STAGE 2 RETALIATIONS
+        { id: 'R16', type: 'retaliation', stage: 2, label: 'Physical building access denied', date: 'Mar 12, 2024', actor: 'Scott', y: 0.28 },
+        { id: 'R17', type: 'retaliation', stage: 2, label: 'Maintenance requests ignored', date: 'Mar 20, 2024', actor: 'PM Office', y: 0.29 },
+        { id: 'R18', type: 'retaliation', stage: 2, label: 'Additional charges to arrears', date: 'Apr 1, 2024', pecuniary: true, actor: 'PM Office', y: 0.32 },
+        { id: 'R19', type: 'retaliation', stage: 2, label: 'Agency dismisses complaint', date: 'May 10, 2024', enabler: true, actor: 'Agency', y: 0.34 },
+        { id: 'R20', type: 'retaliation', stage: 2, label: 'Sister unit allocation (Sarah COI)', date: 'June 15, 2024', 
+          description: 'Sarah allocates unit to sister Indramma', pecuniary: true, actor: 'Sarah', y: 0.37 },
+        { id: 'R21', type: 'retaliation', stage: 2, label: 'Intimidation campaign escalates', date: 'Sept 5, 2024', actor: 'Helen/Bernice', y: 0.40 },
+        { id: 'R22', type: 'retaliation', stage: 2, label: '$32.95 NTA (despite overpayment)', date: 'Sept 9, 2024', 
+          description: '2 days after requisition assembled', actor: 'Board', y: 0.41 },
+        { id: 'R23', type: 'retaliation', stage: 2, label: 'Petition signers targeted', date: 'Sept 15, 2024', actor: 'Helen', y: 0.42 },
+        { id: 'R24', type: 'retaliation', stage: 2, label: 'GMM requisition delayed', date: 'Oct 15, 2024', actor: 'Scott', y: 0.45 },
+        { id: 'R25', type: 'retaliation', stage: 2, label: 'False allegations circulated', date: 'Oct 30, 2024', actor: 'Bernice/Brian', y: 0.47 },
+        { id: 'R26', type: 'retaliation', stage: 2, label: 'CHFT coaches quorum break', date: 'Nov 20, 2024', enabler: true, actor: 'CHFT', y: 0.51 },
+        { id: 'R27', type: 'retaliation', stage: 2, label: 'Agency "governance crisis" letter', date: 'Dec 17, 2024', enabler: true, actor: 'Agency', y: 0.52 },
+        { id: 'R28', type: 'retaliation', stage: 2, label: 'Strategic director resignation (Brian)', date: 'Dec 19, 2024', 
+          description: 'Quorum break at members meeting', actor: 'Brian', y: 0.53 },
+        
+        // STAGE 3 TRIGGERS
+        { id: 'T14', type: 'trigger', stage: 3, label: 'Legitimate board meets', date: 'Jan 10, 2025', actor: 'Board', y: 0.58 },
+        { id: 'T15', type: 'trigger', stage: 3, label: 'Sarah Boodlal termination', date: 'Jan 18, 2025', 
+          description: 'Board terminates Sarah for cause - SAME PERSON from Aug 2023 complaint', 
+          critical: true, actor: 'Board', y: 0.62 },
+        { id: 'T16', type: 'trigger', stage: 3, label: 'Financial records requested', date: 'Feb 1, 2025', actor: 'Board', y: 0.66 },
+        { id: 'T17', type: 'trigger', stage: 3, label: 'Legitimate operations continue', date: 'Feb 20, 2025', actor: 'Board', y: 0.70 },
+        { id: 'T18', type: 'trigger', stage: 3, label: 'Pipe sabotage discovered', date: 'Mar 27, 2025', 
+          description: 'Deliberate cut pipe confirmed by NexKlima', highlight: true, actor: 'Sean', y: 0.74 },
+        { id: 'T19', type: 'trigger', stage: 3, label: 'Requisition: Scott/Bernice removal', date: 'Apr 16, 2025', actor: 'Members', y: 0.78 },
+        { id: 'T20', type: 'trigger', stage: 3, label: 'Hackl conflict of interest challenged', date: 'July 29, 2025', actor: 'Members', y: 0.82 },
+        { id: 'T21', type: 'trigger', stage: 3, label: 'Criminal acts disclosed to members', date: 'Aug 27, 2025', 
+          description: 'GMM briefed on sabotage and breaches', actor: 'Sean', y: 0.88 },
+        { id: 'T22', type: 'trigger', stage: 3, label: 'Governance excellence documented', date: 'Oct 28, 2025', 
+          description: 'Found to go "above and beyond" governance standards', actor: 'Board', y: 0.94 },
+        
+        // STAGE 3 RETALIATIONS
+        { id: 'R29', type: 'retaliation', stage: 3, label: 'Second extortion attempt', date: 'Dec 13, 2024', criminal: true, actor: 'Hackl', y: 0.54 },
+        { id: 'R30', type: 'retaliation', stage: 3, label: 'Flood #2 (Dec 25 - Christmas)', date: 'Dec 25, 2024', criminal: true, actor: 'Unknown', y: 0.55 },
+        { id: 'R31', type: 'retaliation', stage: 3, label: 'False B&E police report', date: 'Jan 4, 2025', 
+          description: 'Helen weaponizes police; no crime found', criminal: true, actor: 'Helen', y: 0.56 },
+        { id: 'R32', type: 'retaliation', stage: 3, label: 'CHFT "no legal authority" letter', date: 'Jan 5-6, 2025', 
+          description: 'CHFT undermines legitimate board authority', enabler: true, actor: 'CHFT', y: 0.59 },
+        { id: 'R33', type: 'retaliation', stage: 3, label: 'Building access codes changed', date: 'Jan 12, 2025', actor: 'Scott', y: 0.60 },
+        { id: 'R34', type: 'retaliation', stage: 3, label: 'Flood #3 (Jan 23)', date: 'Jan 23, 2025', criminal: true, actor: 'Unknown', y: 0.62 },
+        { id: 'R35', type: 'retaliation', stage: 3, label: 'Member communications blocked', date: 'Jan 25, 2025', actor: 'PM Office', y: 0.63 },
+        { id: 'R36', type: 'retaliation', stage: 3, label: 'Financial records withheld', date: 'Feb 3, 2025', actor: 'PM Office', y: 0.66 },
+        { id: 'R37', type: 'retaliation', stage: 3, label: 'Agency questions board legitimacy', date: 'Feb 12, 2025', enabler: true, actor: 'Agency', y: 0.67 },
+        { id: 'R38', type: 'retaliation', stage: 3, label: 'Agency endorses illegal GMM', date: 'Feb 18, 2025', enabler: true, actor: 'Agency', y: 0.68 },
+        { id: 'R39', type: 'retaliation', stage: 3, label: 'Mass privacy breach #1 (230+ members)', date: 'Feb 19, 2025', criminal: true, actor: 'PM Office', y: 0.70 },
+        { id: 'R40', type: 'retaliation', stage: 3, label: 'Illegitimate GMM reverses removal', date: 'Feb 19, 2025', actor: 'Illegit GMM', y: 0.71 },
+        { id: 'R41', type: 'retaliation', stage: 3, label: 'Helen McGarry reinstated illegally', date: 'Feb 19, 2025', actor: 'Illegit GMM', y: 0.72 },
+        { id: 'R42', type: 'retaliation', stage: 3, label: 'Maintenance sabotage escalates', date: 'Mar 1, 2025', actor: 'Unknown', y: 0.74 },
+        { id: 'R43', type: 'retaliation', stage: 3, label: 'PIPE CUT CONFIRMED (NexKlima)', date: 'Mar 27, 2025', 
+          description: 'Deliberate sabotage professionally confirmed', highlight: true, criminal: true, actor: 'Unknown', y: 0.75 },
+        { id: 'R44', type: 'retaliation', stage: 3, label: '$6,000 NTA next day', date: 'Apr 17, 2025', 
+          description: '24 hours after Scott/Bernice requisition', pecuniary: true, actor: 'Board', y: 0.78 },
+        { id: 'R45', type: 'retaliation', stage: 3, label: 'Eviction threat (father)', date: 'Apr 2025', actor: 'Hackl', y: 0.79 },
+        { id: 'R46', type: 'retaliation', stage: 3, label: 'Legal costs weaponized', date: 'Apr 15, 2025', pecuniary: true, actor: 'Hackl', y: 0.80 },
+        { id: 'R47', type: 'retaliation', stage: 3, label: 'Board communications intercepted', date: 'May 1, 2025', actor: 'PM Office', y: 0.81 },
+        { id: 'R48', type: 'retaliation', stage: 3, label: 'Member intimidation continues', date: 'May 15, 2025', actor: 'Helen/Bernice', y: 0.83 },
+        { id: 'R49', type: 'retaliation', stage: 3, label: 'Essential services delayed', date: 'June 1, 2025', actor: 'PM Office', y: 0.84 },
+        { id: 'R50', type: 'retaliation', stage: 3, label: 'False narratives to Agency', date: 'June 15, 2025', actor: 'Helen', y: 0.86 },
+        { id: 'R51', type: 'retaliation', stage: 3, label: 'Harassment investigation ongoing', date: 'Aug 2025', 
+          description: '13 months since initiation (Oct 2024)', critical: true, actor: 'Investigation', y: 0.88 },
+        { id: 'R52', type: 'retaliation', stage: 3, label: 'Member records inappropriately accessed', date: 'Aug 20, 2025', actor: 'PM Office', y: 0.90 },
+        { id: 'R53', type: 'retaliation', stage: 3, label: 'Mass privacy breach #2 (230+ members)', date: 'Sept 8, 2025', criminal: true, actor: 'PM Office', y: 0.92 },
+        { id: 'R54', type: 'retaliation', stage: 3, label: '"POISONED WORKPLACE" FINDING', date: 'Oct 28, 2025', 
+          description: '13-month investigation concludes - weaponized outcome', 
+          highlight: true, critical: true, actor: 'Investigator', y: 0.94 },
+        { id: 'R55', type: 'retaliation', stage: 3, label: '$11,000 NTA (0 DAYS NOTICE)', date: 'Oct 30, 2025', 
+          description: '48 hours after investigation - terminal retaliation', 
+          highlight: true, critical: true, pecuniary: true, actor: 'Board/Helen', y: 0.96 }
+    ],
+    links: []
+};
+
+// Generate standard links
+for (let i = 1; i <= 6; i++) {
+    const start = (i - 1) * 2 + 1;
+    const end = Math.min(start + 2, 15);
+    for (let r = start; r <= end; r++) {
+        networkData.links.push({ source: `T${i}`, target: `R${r}`, stage: 1 });
+    }
+}
+
+for (let i = 7; i <= 13; i++) {
+    const start = 16 + Math.floor((i - 7) * 1.85);
+    const end = Math.min(start + 2, 28);
+    for (let r = start; r <= end; r++) {
+        networkData.links.push({ source: `T${i}`, target: `R${r}`, stage: 2 });
+    }
+}
+
+// Stage 3 with emphasis on T15 (Sarah termination)
+const stage3Map = [
+    { t: 14, r: [29, 30, 31, 32, 33] },
+    { t: 15, r: [34, 35, 36, 51, 54, 55] }, // Sarah termination connects to investigation and final retaliation
+    { t: 16, r: [37, 38, 39, 40, 41] },
+    { t: 17, r: [42, 43] },
+    { t: 18, r: [43, 44] },
+    { t: 19, r: [44, 45, 46] },
+    { t: 20, r: [47, 48, 49] },
+    { t: 21, r: [50, 51, 52, 53] },
+    { t: 22, r: [54, 55] }
+];
+
+stage3Map.forEach(m => {
+    m.r.forEach(r => {
+        networkData.links.push({ source: `T${m.t}`, target: `R${r}`, stage: 3 });
+    });
+});
+
+// CRITICAL ORIGIN CASCADE LINKS (special styling)
+networkData.links.push({ source: 'T1', target: 'R2', cascade: true, label: 'Origin → First retaliation' });
+networkData.links.push({ source: 'T1', target: 'T15', cascade: true, label: 'Origin → Sarah termination' });
+networkData.links.push({ source: 'T15', target: 'R51', cascade: true, label: 'Termination → Investigation' });
+networkData.links.push({ source: 'R51', target: 'R54', cascade: true, label: 'Investigation → Finding' });
+networkData.links.push({ source: 'R54', target: 'R55', cascade: true, label: 'Finding → Terminal NTA' });
+
+// RENDER NETWORK
+const networkWidth = 1400;
+const networkHeight = 1400;
+const margin = { top: 60, right: 200, bottom: 40, left: 200 };
+
+const svg = d3.select("#network-viz")
+    .append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("viewBox", `0 0 ${networkWidth} ${networkHeight}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
+
+const tooltip = d3.select(".tooltip");
+
+const stageColors = {
+    1: { trigger: '#0ea5e9', retaliation: '#f59e0b' },
+    2: { trigger: '#06b6d4', retaliation: '#f97316' },
+    3: { trigger: '#14b8a6', retaliation: '#ef4444' }
+};
+
+// Position nodes
+networkData.nodes.forEach(node => {
+    node.x = node.type === 'trigger' ? margin.left : networkWidth - margin.right;
+    node.y = margin.top + (node.y * (networkHeight - margin.top - margin.bottom));
+});
+
+// Draw links
+const linkGenerator = d3.linkHorizontal()
+    .x(d => d.x)
+    .y(d => d.y);
+
+svg.selectAll(".link")
+    .data(networkData.links)
+    .join("path")
+    .attr("class", d => d.cascade ? 'cascade-line' : 'link')
+    .attr("d", d => {
+        const source = networkData.nodes.find(n => n.id === d.source);
+        const target = networkData.nodes.find(n => n.id === d.target);
+        return linkGenerator({ source, target });
+    })
+    .attr("stroke", d => {
+        if (d.cascade) return '#fbbf24';
+        const target = networkData.nodes.find(n => n.id === d.target);
+        if (target.enabler) return '#a855f7';
+        return stageColors[target.stage].retaliation;
+    })
+    .attr("stroke-width", d => {
+        if (d.cascade) return 4;
+        const target = networkData.nodes.find(n => n.id === d.target);
+        if (target.stage === 3) return 5;
+        if (target.stage === 2) return 4;
+        return 3;
+    })
+    .attr("fill", "none")
+    .style("stroke-opacity", d => d.cascade ? 0.8 : 0.5);
+
+// Draw nodes
+const nodes = svg.selectAll(".node")
+    .data(networkData.nodes)
+    .join("g")
+    .attr("class", "node")
+    .attr("transform", d => `translate(${d.x},${d.y})`);
+
+nodes.append("circle")
+    .attr("r", d => d.critical ? 10 : (d.highlight ? 10 : 8))
+    .attr("class", d => {
+        let classes = 'node-circle';
+        if (d.origin) classes += ' origin-trigger-glow';
+        return classes;
+    })
+    .style("fill", d => stageColors[d.stage][d.type])
+    .style("stroke", d => {
+        if (d.origin) return '#fbbf24';
+        if (d.critical) return '#dc2626';
+        if (d.highlight) return '#fbbf24';
+        return '#fff';
+    })
+    .style("stroke-width", d => (d.origin || d.critical || d.highlight) ? 4 : 3)
+    .on("mouseover", function(event, d) {
+        tooltip
+            .style("opacity", 1)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px")
+            .html(`
+                <div style="font-weight: 700; font-size: 16px; margin-bottom: 8px; color: ${d.origin ? '#fbbf24' : (d.critical ? '#fca5a5' : '#f3f4f6')};">
+                    ${d.origin ? '🔴 ORIGIN TRIGGER' : (d.critical ? '⚡ CRITICAL EVENT' : '')}
+                </div>
+                <div style="font-weight: 700; font-size: 15px; margin-bottom: 6px;">${d.label}</div>
+                <div style="font-size: 13px; color: #d1d5db; margin-bottom: 6px;"><strong>Date:</strong> ${d.date}</div>
+                <div style="font-size: 13px; color: #d1d5db; margin-bottom: 6px;"><strong>Actor:</strong> ${d.actor || 'N/A'}</div>
+                ${d.description ? `<div style="font-size: 12px; color: #e5e7eb; margin-top: 8px; line-height: 1.4;">${d.description}</div>` : ''}
+                ${d.criminal ? '<div style="color: #fca5a5; font-weight: 700; margin-top: 6px;">⚠️ Criminal Flag</div>' : ''}
+                ${d.enabler ? '<div style="color: #c084fc; font-weight: 700; margin-top: 6px;">🔗 External Enabler</div>' : ''}
+                ${d.pecuniary ? '<div style="color: #fcd34d; font-weight: 700; margin-top: 6px;">💰 Pecuniary Interest</div>' : ''}
+            `);
+    })
+    .on("mouseout", function() {
+        tooltip.style("opacity", 0);
+    });
+
+// Labels
+nodes.append("text")
+    .attr("x", d => d.type === 'trigger' ? -15 : 15)
+    .attr("text-anchor", d => d.type === 'trigger' ? 'end' : 'start')
+    .attr("dy", 4)
+    .attr("class", "text-xs font-semibold")
+    .style("fill", d => (d.origin || d.critical) ? '#991b1b' : '#374151')
+    .text(d => d.label);
+
+// Badges
+nodes.each(function(d) {
+    const g = d3.select(this);
+    let offsetX = 12;
+    
+    if (d.criminal) {
+        g.append("text").attr("x", offsetX).attr("y", -12).attr("font-size", "13px").text("⚠️");
+        offsetX += 16;
+    }
+    if (d.enabler) {
+        g.append("text").attr("x", offsetX).attr("y", -12).attr("font-size", "13px").text("🔗");
+        offsetX += 16;
+    }
+    if (d.pecuniary) {
+        g.append("text").attr("x", offsetX).attr("y", -12).attr("font-size", "13px").text("💰");
+    }
+});
+
+// Column headers
+svg.append("text")
+    .attr("x", margin.left)
+    .attr("y", 30)
+    .attr("text-anchor", "middle")
+    .attr("class", "text-xl font-bold")
+    .style("fill", "#1f2937")
+    .text("22 TRIGGER EVENTS");
+
+svg.append("text")
+    .attr("x", networkWidth - margin.right)
+    .attr("y", 30)
+    .attr("text-anchor", "middle")
+    .attr("class", "text-xl font-bold")
+    .style("fill", "#1f2937")
+    .text("54 RETALIATORY ACTS");
+
+// Stage labels
+const stageY = [0.12, 0.4, 0.68];
+['Stage 1: ρ=2.50', 'Stage 2: ρ=1.71', 'Stage 3: ρ=3.00'].forEach((label, i) => {
+    svg.append("text")
+        .attr("x", 30)
+        .attr("y", margin.top + stageY[i] * (networkHeight - margin.top - margin.bottom))
+        .attr("class", "text-base font-bold")
+        .style("fill", ['#0ea5e9', '#f97316', '#ef4444'][i])
+        .text(label);
+});
+</script>
+
+</body>
+</html>
