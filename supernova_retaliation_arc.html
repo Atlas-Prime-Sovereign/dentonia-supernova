@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supernova Model - 22 Triggers, 50 Retaliations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body{font-family:'Inter',sans-serif}
+        .tooltip{position:absolute;max-width:350px;padding:12px;font-size:13px;background:#1f2937;color:#f3f4f6;border:2px solid #dc2626;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:1000}
+        .link-path{transition:all .3s;stroke-opacity:.7}
+        .critical-link{stroke-dasharray:8,4;animation:dash 2s linear infinite}
+        @keyframes dash{to{stroke-dashoffset:-12}}
+    </style>
+</head>
+<body class="bg-gray-50">
+<div class="container mx-auto p-8 max-w-7xl">
+    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+        <h1 class="text-3xl font-bold text-center mb-3">Supernova Model: Complete Retaliation Arc</h1>
+        <p class="text-center text-gray-600 mb-6">September 2022 - November 2025 (38 Months)</p>
+        <div class="flex justify-center space-x-6">
+            <div class="bg-purple-50 px-6 py-3 rounded-lg"><span class="font-bold text-purple-600">22 Triggers</span></div>
+            <div class="bg-red-50 px-6 py-3 rounded-lg"><span class="font-bold text-red-600">50 Retaliations</span></div>
+            <div class="bg-orange-50 px-6 py-3 rounded-lg"><span class="font-bold text-orange-600">ρ = 2.27:1</span></div>
+        </div>
+    </div>
+    <div id="graph" style="min-height:3200px" class="bg-gray-50"></div>
+</div>
+<div id="tooltip" class="tooltip"></div>
+<script>
+const data={
+    nodes:[
+        {id:'T1',type:'trigger',stage:0,label:'Sean runs for President',date:'Sept 2022',critical:true},
+        {id:'T2',type:'trigger',stage:0,label:'Party room reported',date:'Nov 2022'},
+        {id:'T3',type:'trigger',stage:0,label:'President run official',date:'Feb 3, 2023'},
+        {id:'R1',type:'retaliation',stage:0,label:'Remove family pressure',date:'Sept-Oct 2022'},
+        {id:'R2',type:'retaliation',stage:0,label:'Bob sick leave',date:'Nov 2022'},
+        {id:'R3',type:'retaliation',stage:0,label:'Email exclusion',date:'Nov-Dec 2022'},
+        {id:'R4',type:'retaliation',stage:0,label:'Email exclusion doc',date:'Dec 8, 2022'},
+        {id:'R5',type:'retaliation',stage:0,label:'Omitted minutes',date:'Dec 2022'},
+        {id:'R6',type:'retaliation',stage:0,label:'Ipso facto removal',date:'Feb 3, 2023'},
+        {id:'R7',type:'retaliation',stage:0,label:'OW letter withheld',date:'Feb-May 2023'},
+        {id:'R8',type:'retaliation',stage:0,label:'Helen # to OW',date:'May 2023'},
+        {id:'T4',type:'trigger',stage:1,label:'CHFT complaint',date:'Aug 1, 2023'},
+        {id:'T5',type:'trigger',stage:1,label:'Pay arrears attempt',date:'Jan 4, 2024'},
+        {id:'T6',type:'trigger',stage:1,label:'Secret termination found',date:'Feb 2024'},
+        {id:'R9',type:'retaliation',stage:1,label:'Conf breach',date:'Aug 2023'},
+        {id:'R10',type:'retaliation',stage:1,label:'Notice to Appear',date:'Aug 31, 2023'},
+        {id:'R11',type:'retaliation',stage:1,label:'Perf agreement',date:'Sept 25, 2023'},
+        {id:'R12',type:'retaliation',stage:1,label:'Dog harass #1',date:'Sept 2023'},
+        {id:'R13',type:'retaliation',stage:1,label:'Dog harass #2',date:'Dec 2023'},
+        {id:'R14',type:'retaliation',stage:1,label:'Appeal rights cut',date:'Dec 13, 2023'},
+        {id:'R15',type:'retaliation',stage:1,label:'$1,300 hydro',date:'Jan 12, 2024'},
+        {id:'R16',type:'retaliation',stage:1,label:'Called squatter',date:'Jan 12, 2024'},
+        {id:'R17',type:'retaliation',stage:1,label:'6-day termination',date:'Jan 18, 2024'},
+        {id:'R18',type:'retaliation',stage:1,label:'Suspended term',date:'Feb 1, 2024'},
+        {id:'T7',type:'trigger',stage:2,label:'Req: 3 directors',date:'Apr 16, 2024'},
+        {id:'T8',type:'trigger',stage:2,label:'Subsidy app',date:'Aug 23, 2024'},
+        {id:'T9',type:'trigger',stage:2,label:'Req: Helen',date:'Sept 7, 2024'},
+        {id:'T10',type:'trigger',stage:2,label:'Caster coord',date:'Sept 27-30, 2024'},
+        {id:'T11',type:'trigger',stage:2,label:'⚡ Admin leave try',date:'Oct 1, 2024',critical:true},
+        {id:'T12',type:'trigger',stage:2,label:'GMM removes Helen',date:'Nov 14, 2024'},
+        {id:'R19',type:'retaliation',stage:2,label:'$6K NTA',date:'Apr 17, 2024'},
+        {id:'R20',type:'retaliation',stage:2,label:'Subsidy removed',date:'July 31, 2024'},
+        {id:'R21',type:'retaliation',stage:2,label:'Appeal denied',date:'Aug 21, 2024'},
+        {id:'R22',type:'retaliation',stage:2,label:'NTA $32.95',date:'Sept 9, 2024'},
+        {id:'R23',type:'retaliation',stage:2,label:'Family intimidation',date:'Sept 11, 2024'},
+        {id:'R24',type:'retaliation',stage:2,label:'External coord',date:'Sept 30, 2024'},
+        {id:'R25',type:'retaliation',stage:2,label:'⚡ Harass invest',date:'Oct 2024',critical:true},
+        {id:'R26',type:'retaliation',stage:2,label:'File blocked',date:'Nov 25, 2024'},
+        {id:'R27',type:'retaliation',stage:2,label:'NTA $2,644.95',date:'Dec 2, 2024'},
+        {id:'R28',type:'retaliation',stage:2,label:'Defam threats',date:'Dec 13, 2024'},
+        {id:'R29',type:'retaliation',stage:2,label:'Agency crisis',date:'Dec 17, 2024'},
+        {id:'R30',type:'retaliation',stage:2,label:'Strategic resign',date:'Dec 19, 2024'},
+        {id:'R31',type:'retaliation',stage:2,label:'Flood #1',date:'Dec 23, 2024'},
+        {id:'R32',type:'retaliation',stage:2,label:'Xmas lockout',date:'Dec 25, 2024'},
+        {id:'T13',type:'trigger',stage:3,label:'Board office',date:'Jan 4, 2025'},
+        {id:'T14',type:'trigger',stage:3,label:'New directors',date:'Jan 6, 2025'},
+        {id:'T15',type:'trigger',stage:3,label:'Sarah terminated',date:'Jan 18, 2025'},
+        {id:'T16',type:'trigger',stage:3,label:'Pipe sabotage',date:'Mar 27, 2025'},
+        {id:'T17',type:'trigger',stage:3,label:'Req: Scott/Bernice',date:'Apr 16, 2025'},
+        {id:'T18',type:'trigger',stage:3,label:'Hackl challenged',date:'July 29, 2025'},
+        {id:'T19',type:'trigger',stage:3,label:'Staff questioned',date:'Aug 6, 2025'},
+        {id:'T20',type:'trigger',stage:3,label:'Criminal disclosed',date:'Aug 27, 2025'},
+        {id:'T21',type:'trigger',stage:3,label:'Subsidy docs',date:'Sept 2025'},
+        {id:'T22',type:'trigger',stage:3,label:'Gov excellence',date:'Oct 28, 2025',critical:true},
+        {id:'R33',type:'retaliation',stage:3,label:'Police weapon',date:'Jan 4, 2025'},
+        {id:'R34',type:'retaliation',stage:3,label:'CHFT undermine',date:'Jan 5-6, 2025'},
+        {id:'R35',type:'retaliation',stage:3,label:'False req #2',date:'Jan 7, 2025'},
+        {id:'R36',type:'retaliation',stage:3,label:'Arrears $3,609',date:'Jan 9, 2025'},
+        {id:'R37',type:'retaliation',stage:3,label:'Office mobbing',date:'Jan 19, 2025'},
+        {id:'R38',type:'retaliation',stage:3,label:'Flood #2',date:'Jan 23, 2025'},
+        {id:'R39',type:'retaliation',stage:3,label:'Illegal req #3',date:'Feb 8, 2025'},
+        {id:'R40',type:'retaliation',stage:3,label:'Agency questions',date:'Feb 12, 2025'},
+        {id:'R41',type:'retaliation',stage:3,label:'Illegal GMM',date:'Feb 18, 2025'},
+        {id:'R42',type:'retaliation',stage:3,label:'Directors purged',date:'Feb 19, 2025'},
+        {id:'R43',type:'retaliation',stage:3,label:'Privacy breach',date:'Feb 19, 2025'},
+        {id:'R44',type:'retaliation',stage:3,label:'File conceal',date:'Mar 2025'},
+        {id:'R45',type:'retaliation',stage:3,label:'NTA ~$6K',date:'Apr 17, 2025'},
+        {id:'R46',type:'retaliation',stage:3,label:'Cond subsidy',date:'May 22, 2025'},
+        {id:'R47',type:'retaliation',stage:3,label:'Mass privacy',date:'Sept 8, 2025'},
+        {id:'R48',type:'retaliation',stage:3,label:'⚡ Poisoned env',date:'Oct 28, 2025',critical:true},
+        {id:'R49',type:'retaliation',stage:3,label:'⚡ $11K NTA (0d)',date:'Oct 30, 2025',critical:true},
+        {id:'R50',type:'retaliation',stage:3,label:'LTB scheduled',date:'Nov 13, 2025'},
+    ],
+    links:[
+        {source:'T1',target:'R1'},{source:'T1',target:'R2'},{source:'T2',target:'R2'},{source:'T2',target:'R3'},{source:'T2',target:'R4'},
+        {source:'T3',target:'R5'},{source:'T3',target:'R6'},{source:'T3',target:'R7'},{source:'T3',target:'R8'},
+        {source:'T4',target:'R9'},{source:'T4',target:'R10'},{source:'T4',target:'R11'},{source:'T4',target:'R12'},{source:'T4',target:'R13'},{source:'T4',target:'R14'},
+        {source:'T5',target:'R15'},{source:'T5',target:'R16'},{source:'T5',target:'R17'},{source:'T6',target:'R18'},
+        {source:'T7',target:'R19'},{source:'T8',target:'R20'},{source:'T8',target:'R21'},{source:'T9',target:'R22'},{source:'T9',target:'R23'},
+        {source:'T10',target:'R24'},{source:'T11',target:'R25'},{source:'T12',target:'R26'},{source:'T12',target:'R27'},{source:'T12',target:'R28'},
+        {source:'T12',target:'R29'},{source:'T12',target:'R30'},{source:'T12',target:'R31'},{source:'T12',target:'R32'},
+        {source:'T13',target:'R33'},{source:'T13',target:'R34'},{source:'T14',target:'R34'},{source:'T14',target:'R35'},{source:'T13',target:'R36'},
+        {source:'T15',target:'R37'},{source:'T15',target:'R38'},{source:'T13',target:'R39'},{source:'T14',target:'R39'},{source:'T15',target:'R39'},
+        {source:'T13',target:'R40'},{source:'T14',target:'R40'},{source:'T13',target:'R41'},{source:'T14',target:'R41'},{source:'T15',target:'R41'},
+        {source:'T13',target:'R42'},{source:'T14',target:'R42'},{source:'T13',target:'R43'},{source:'T16',target:'R44'},{source:'T17',target:'R45'},
+        {source:'T17',target:'R46'},{source:'T19',target:'R47'},{source:'T20',target:'R47'},{source:'T22',target:'R48'},
+        {source:'T22',target:'R49'},{source:'T22',target:'R50'},
+        {source:'T1',target:'R9',type:'long-arc'},{source:'T1',target:'R48',type:'long-arc'},{source:'T1',target:'R49',type:'long-arc'},
+        {source:'T11',target:'R48',type:'critical'},{source:'T11',target:'R49',type:'critical'},
+    ]
+};
+const draw=()=>{
+    const c=document.getElementById('graph');c.innerHTML='';
+    const w=c.clientWidth,h=3200,m={top:50,right:30,bottom:50,left:30};
+    const svg=d3.select('#graph').append('svg').attr('width',w).attr('height',h).attr('viewBox',`0 0 ${w} ${h}`);
+    const color=d3.scaleOrdinal().domain([0,1,2,3]).range(['#3b82f6','#10b981','#f97316','#dc2626']);
+    const tooltip=d3.select('#tooltip');
+    const T=data.nodes.filter(n=>n.type==='trigger'),R=data.nodes.filter(n=>n.type==='retaliation');
+    const yT=(h-m.top-m.bottom)/(T.length-1),yR=(h-m.top-m.bottom)/(R.length-1);
+    const pos={};
+    T.forEach((d,i)=>{pos[d.id]={x:w*0.2,y:m.top+i*yT};});
+    R.forEach((d,i)=>{pos[d.id]={x:w*0.8,y:m.top+i*yR};});
+    
+    svg.append('text').attr('x',w*0.2).attr('y',m.top-25).attr('text-anchor','middle').style('font-size','18px').style('font-weight','bold').text(`Triggers (${T.length})`);
+    svg.append('text').attr('x',w*0.8).attr('y',m.top-25).attr('text-anchor','middle').style('font-size','18px').style('font-weight','bold').text(`Retaliations (${R.length})`);
+    
+    svg.append('g').selectAll('path').data(data.links).join('path')
+        .attr('d',d=>{
+            const s=pos[d.source],t=pos[d.target];
+            if(d.type==='long-arc'){const mX=(s.x+t.x)/2,cX=mX-100;return`M ${s.x},${s.y} Q ${cX},${(s.y+t.y)/2} ${t.x},${t.y}`;}
+            const mX=(s.x+t.x)/2;return`M ${s.x},${s.y} Q ${mX},${s.y} ${mX},${(s.y+t.y)/2} T ${t.x},${t.y}`;
+        })
+        .attr('fill','none')
+        .attr('stroke',d=>d.type==='critical'?'#dc2626':d.type==='long-arc'?'#7c3aed':color(data.nodes.find(n=>n.id===d.source).stage))
+        .attr('stroke-width',d=>d.type==='critical'?5:d.type==='long-arc'?4:3)
+        .style('opacity',d=>d.type==='long-arc'?.65:.7);
+    
+    const nodes=svg.append('g').selectAll('g').data(data.nodes).join('g')
+        .attr('transform',d=>`translate(${pos[d.id].x},${pos[d.id].y})`)
+        .on('mouseover',function(e,d){
+            tooltip.transition().duration(200).style('opacity',.95);
+            tooltip.html(`${d.critical?'⚡ ':''}<strong>${d.label}</strong><br/><span style="color:#9ca3af">${d.date}</span>`)
+                .style('left',(e.pageX+15)+'px').style('top',(e.pageY-28)+'px');
+        })
+        .on('mouseout',()=>tooltip.transition().duration(500).style('opacity',0));
+    
+    nodes.append('circle').attr('r',d=>d.critical?8:6).attr('fill',d=>color(d.stage))
+        .attr('stroke',d=>d.critical?'#fbbf24':'#fff').attr('stroke-width',d=>d.critical?3:2);
+    nodes.append('text').attr('x',d=>d.type==='trigger'?-15:15).attr('dy','.35em')
+        .attr('text-anchor',d=>d.type==='trigger'?'end':'start').text(d=>d.label)
+        .style('fill',d=>d.critical?'#991b1b':'#374151').style('font-weight',d=>d.critical?'600':'500').style('font-size','11px');
+    
+    svg.append('text').attr('x',w/2).attr('y',h-30).attr('text-anchor','middle')
+        .style('font-size','22px').style('font-weight','bold').style('fill','#dc2626')
+        .text(`Final ρ = 2.27:1 (${R.length} ÷ ${T.length})`);
+};
+draw();
+window.addEventListener('resize',draw);
+</script>
+</body>
+</html>
