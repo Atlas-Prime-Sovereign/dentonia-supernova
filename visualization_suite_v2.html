@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supernova Model: Complete Visualization Suite v2.0</title>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .header h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .stat-card h3 {
+            color: #1e3c72;
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .stat-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .viz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .viz-container h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 10px;
+        }
+        .chart {
+            width: 100%;
+            height: 600px;
+            margin-bottom: 20px;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .controls label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .supernova-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌟 Supernova Model: Complete Visualization Suite v2.0</h1>
+        <p><strong>Enhanced & Verified</strong> | December 1, 2025</p>
+        <p>Mathematical Proof of Institutional Capture: 30 Triggers → 65 Retaliations (ρ = 2.17:1)</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>30</h3>
+            <p>Total Triggers</p>
+        </div>
+        <div class="stat-card">
+            <h3>65</h3>
+            <p>Total Retaliations</p>
+        </div>
+        <div class="stat-card">
+            <h3>2.17:1</h3>
+            <p>ρ Ratio</p>
+        </div>
+        <div class="stat-card">
+            <h3>39</h3>
+            <p>Months</p>
+        </div>
+        <div class="stat-card">
+            <h3>8.5%</h3>
+            <p>Above Event Horizon</p>
+        </div>
+        <div class="stat-card">
+            <h3>6</h3>
+            <p>Targets</p>
+        </div>
+    </div>
+
+    <div class="viz-container">
+        <h2>📊 Temporal Arc: Triggers vs Retaliations Over Time</h2>
+        <div id="temporal-arc" class="chart"></div>
+    </div>
+
+    <div class="viz-container">
+        <h2>🔥 Supernova Events: Phase-by-Phase Ratio</h2>
+        <div id="phase-ratios" class="chart"></div>
+    </div>
+
+    <div class="viz-container">
+        <h2>🎯 Multi-Target Distribution</h2>
+        <div id="target-distribution" class="chart"></div>
+    </div>
+
+    <div class="viz-container">
+        <h2>🌊 Cumulative Crisis Trajectory</h2>
+        <div id="cumulative-chart" class="chart"></div>
+    </div>
+
+    <div class="viz-container">
+        <h2>🕸️ Actor Network Map</h2>
+        <div id="network-map" class="chart"></div>
+    </div>
+
+    <div class="viz-container">
+        <h2>📈 ρ Ratio Evolution</h2>
+        <div id="rho-evolution" class="chart"></div>
+    </div>
+
+    <script>
+        // Data preparation
+        const phaseData = [
+            {phase: "Foundation", period: "Sept 2022 - Jul 2023", triggers: 5, retals: 8, ratio: 1.60},
+            {phase: "Whistleblowing", period: "Aug 2023 - Jan 2024", triggers: 2, retals: 12, ratio: 6.00, supernova: true},
+            {phase: "Democratic Challenge", period: "Feb 2024 - Nov 2024", triggers: 8, retals: 10, ratio: 1.25},
+            {phase: "Intensification", period: "Dec 2024 - Mar 2025", triggers: 4, retals: 21, ratio: 5.25, supernova: true},
+            {phase: "Authority Assertion", period: "Apr 2025 - Nov 2025", triggers: 11, retals: 14, ratio: 1.27}
+        ];
+
+        const targetData = [
+            {target: "Sean Manners", retals: 48, percent: 73.8},
+            {target: "All Members", retals: 7, percent: 10.8},
+            {target: "Stedmond Manners", retals: 4, percent: 6.2},
+            {target: "Brian Rogers", retals: 3, percent: 4.6},
+            {target: "Jerrica Madden", retals: 2, percent: 3.1},
+            {target: "Dean", retals: 1, percent: 1.5}
+        ];
+
+        // 1. Temporal Arc Chart
+        const temporalTrace1 = {
+            x: phaseData.map(d => d.phase),
+            y: phaseData.map(d => d.triggers),
+            name: 'Triggers',
+            type: 'bar',
+            marker: {color: '#4CAF50'}
+        };
+
+        const temporalTrace2 = {
+            x: phaseData.map(d => d.phase),
+            y: phaseData.map(d => d.retals),
+            name: 'Retaliations',
+            type: 'bar',
+            marker: {color: '#f44336'}
+        };
+
+        const temporalLayout = {
+            title: 'Triggers vs Retaliations by Phase',
+            barmode: 'group',
+            xaxis: {title: 'Phase'},
+            yaxis: {title: 'Count'},
+            height: 500
+        };
+
+        Plotly.newPlot('temporal-arc', [temporalTrace1, temporalTrace2], temporalLayout);
+
+        // 2. Phase Ratios with Supernova Highlighting
+        const phaseRatioTrace = {
+            x: phaseData.map(d => d.phase),
+            y: phaseData.map(d => d.ratio),
+            text: phaseData.map(d => d.supernova ? '🔥 SUPERNOVA' : ''),
+            textposition: 'top',
+            mode: 'lines+markers+text',
+            marker: {
+                size: phaseData.map(d => d.supernova ? 20 : 12),
+                color: phaseData.map(d => d.supernova ? '#ff6b6b' : '#2a5298'),
+                line: {width: 2, color: '#fff'}
+            },
+            line: {color: '#2a5298', width: 3}
+        };
+
+        const eventHorizonLine = {
+            x: phaseData.map(d => d.phase),
+            y: Array(5).fill(2.0),
+            name: 'Event Horizon (2.0:1)',
+            mode: 'lines',
+            line: {color: 'red', width: 2, dash: 'dash'}
+        };
+
+        const phaseRatioLayout = {
+            title: 'ρ Ratio by Phase (Supernova Events Highlighted)',
+            xaxis: {title: 'Phase'},
+            yaxis: {title: 'ρ Ratio', range: [0, 7]},
+            showlegend: true,
+            height: 500
+        };
+
+        Plotly.newPlot('phase-ratios', [phaseRatioTrace, eventHorizonLine], phaseRatioLayout);
+
+        // 3. Multi-Target Distribution (Sunburst)
+        const targetTrace = {
+            labels: targetData.map(d => d.target),
+            values: targetData.map(d => d.retals),
+            parents: Array(6).fill(''),
+            type: 'sunburst',
+            marker: {
+                colors: ['#1e3c72', '#2a5298', '#3d6cb9', '#5485d4', '#6fa0e8', '#8bb9ff']
+            },
+            textinfo: 'label+value+percent parent',
+            hovertemplate: '<b>%{label}</b><br>Retaliations: %{value}<br>Percent: %{percentParent}<extra></extra>'
+        };
+
+        const targetLayout = {
+            title: 'Retaliation Distribution by Target',
+            height: 600
+        };
+
+        Plotly.newPlot('target-distribution', [targetTrace], targetLayout);
+
+        // 4. Cumulative Crisis Trajectory
+        let cumulativeTriggers = [];
+        let cumulativeRetals = [];
+        let cumSum = 0;
+        let cumSumRetals = 0;
+
+        phaseData.forEach(d => {
+            cumSum += d.triggers;
+            cumSumRetals += d.retals;
+            cumulativeTriggers.push({phase: d.phase, value: cumSum});
+            cumulativeRetals.push({phase: d.phase, value: cumSumRetals});
+        });
+
+        const cumulativeTrace1 = {
+            x: cumulativeTriggers.map(d => d.phase),
+            y: cumulativeTriggers.map(d => d.value),
+            name: 'Cumulative Triggers',
+            mode: 'lines+markers',
+            marker: {color: '#4CAF50', size: 10},
+            line: {width: 3}
+        };
+
+        const cumulativeTrace2 = {
+            x: cumulativeRetals.map(d => d.phase),
+            y: cumulativeRetals.map(d => d.value),
+            name: 'Cumulative Retaliations',
+            mode: 'lines+markers',
+            marker: {color: '#f44336', size: 10},
+            line: {width: 3}
+        };
+
+        const cumulativeLayout = {
+            title: 'Cumulative Crisis Trajectory (Sept 2022 - Nov 2025)',
+            xaxis: {title: 'Phase'},
+            yaxis: {title: 'Cumulative Count'},
+            height: 500
+        };
+
+        Plotly.newPlot('cumulative-chart', [cumulativeTrace1, cumulativeTrace2], cumulativeLayout);
+
+        // 5. Actor Network Map (simplified force-directed)
+        const networkNodes = [
+            {id: 'Helen', label: 'Helen McGarry', acts: 15, color: '#d32f2f'},
+            {id: 'Scott', label: 'Scott Austin', acts: 12, color: '#c62828'},
+            {id: 'Sarah', label: 'Sarah Boodlal', acts: 8, color: '#f44336'},
+            {id: 'CHFT', label: 'CHFT/Agency', acts: 4, color: '#ff5722'},
+            {id: 'Hackl', label: 'Michael Hackl', acts: 3, color: '#ff9800'},
+            {id: 'Bernice', label: 'Bernice', acts: 2, color: '#ffc107'}
+        ];
+
+        const networkTrace = {
+            x: [1, 2, 3, 1.5, 2.5, 2],
+            y: [3, 3, 2, 2, 1, 1],
+            mode: 'markers+text',
+            marker: {
+                size: networkNodes.map(n => n.acts * 5),
+                color: networkNodes.map(n => n.color),
+                line: {color: '#fff', width: 2}
+            },
+            text: networkNodes.map(n => `${n.label}<br>${n.acts} acts`),
+            textposition: 'top center',
+            type: 'scatter',
+            hovertemplate: '<b>%{text}</b><extra></extra>'
+        };
+
+        const networkLayout = {
+            title: 'Key Actor Network (Acts of Retaliation)',
+            xaxis: {showgrid: false, zeroline: false, showticklabels: false},
+            yaxis: {showgrid: false, zeroline: false, showticklabels: false},
+            showlegend: false,
+            height: 500
+        };
+
+        Plotly.newPlot('network-map', [networkTrace], networkLayout);
+
+        // 6. ρ Ratio Evolution Over Phases
+        const rhoEvolutionTrace = {
+            x: phaseData.map(d => d.phase),
+            y: phaseData.map(d => d.ratio),
+            mode: 'lines+markers',
+            fill: 'tozeroy',
+            marker: {
+                size: 15,
+                color: phaseData.map(d => d.supernova ? '#ff6b6b' : '#2a5298')
+            },
+            line: {color: '#1e3c72', width: 4}
+        };
+
+        const globalRatioLine = {
+            x: phaseData.map(d => d.phase),
+            y: Array(5).fill(2.17),
+            name: 'Global ρ (2.17:1)',
+            mode: 'lines',
+            line: {color: '#4CAF50', width: 2, dash: 'dot'}
+        };
+
+        const rhoEvolutionLayout = {
+            title: 'ρ Ratio Evolution (with Event Horizon at 2.0)',
+            xaxis: {title: 'Phase'},
+            yaxis: {title: 'ρ Ratio', range: [0, 7]},
+            shapes: [{
+                type: 'line',
+                x0: 0,
+                y0: 2.0,
+                x1: 1,
+                y1: 2.0,
+                xref: 'paper',
+                line: {color: 'red', width: 2, dash: 'dash'}
+            }],
+            annotations: [{
+                x: 'Whistleblowing',
+                y: 6.0,
+                text: '🔥 6.00:1',
+                showarrow: true,
+                arrowhead: 2
+            }, {
+                x: 'Intensification',
+                y: 5.25,
+                text: '🔥 5.25:1',
+                showarrow: true,
+                arrowhead: 2
+            }],
+            height: 500
+        };
+
+        Plotly.newPlot('rho-evolution', [rhoEvolutionTrace, globalRatioLine], rhoEvolutionLayout);
+    </script>
+</body>
+</html>
