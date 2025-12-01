@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supernova Events Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1e 100%);
+            color: #e0e6ed;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255,215,0,0.3);
+            box-shadow: 0 0 30px rgba(255,215,0,0.2);
+        }
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.5);
+        }
+        .supernova-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .supernova-card {
+            background: linear-gradient(135deg, rgba(255,107,107,0.1) 0%, rgba(255,193,7,0.1) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,193,7,0.3);
+            box-shadow: 0 5px 25px rgba(255,193,7,0.2);
+        }
+        .supernova-card h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        .stat-label {
+            color: #a8b2d1;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .event-list {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .event-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(255,255,255,0.05);
+            border-left: 3px solid #ff6b6b;
+            border-radius: 4px;
+        }
+        .chart-container {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .warning-box {
+            background: rgba(255,107,107,0.2);
+            border: 2px solid #ff6b6b;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .warning-box h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💥 Supernova Events: Extreme Escalation Analysis</h1>
+            <div style="color: #ffd700; font-size: 1.2em; margin-top: 10px;">
+                Critical Threshold Exceeded: ρ > 5.00:1
+            </div>
+        </header>
+
+        <div class="warning-box">
+            <h3>⚠️ Supernova Definition</h3>
+            <p>A "Supernova Event" occurs when the retaliation ratio exceeds 5.00:1 in any discrete phase, 
+            indicating extreme institutional response to democratic action. These represent critical failures 
+            in governance where the organization demonstrates capacity for coordinated, disproportionate retaliation.</p>
+        </div>
+
+        <div class="supernova-grid">
+            <div class="supernova-card">
+                <h2>🌟 Supernova Event #1</h2>
+                <h3 style="color: #ff9f43; margin-bottom: 15px;">Whistleblowing Phase</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Period:</span>
+                    <span class="stat-value">August 2023 - January 2024</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Duration:</span>
+                    <span class="stat-value">6 months</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Triggers:</span>
+                    <span class="stat-value">2</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Retaliations:</span>
+                    <span class="stat-value">12</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">ρ Ratio:</span>
+                    <span class="stat-value" style="font-size: 1.5em; color: #ffd700;">6.00:1</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Escalation vs Baseline:</span>
+                    <span class="stat-value" style="color: #ff6b6b;">+275%</span>
+                </div>
+                <div class="event-list">
+                    <strong style="color: #ffd700;">Key Trigger Events:</strong>
+                    <div class="event-item">CHFT complaint filed - External oversight sought</div>
+                    <div class="event-item">Financial transparency demands</div>
+                </div>
+                <div class="event-list">
+                    <strong style="color: #ff6b6b;">Retaliation Cascade:</strong>
+                    <div class="event-item">Extortion threats (2 documented)</div>
+                    <div class="event-item">BCA crisis manufactured with Agency coordination</div>
+                    <div class="event-item">Audit suppression initiated</div>
+                    <div class="event-item">Privacy breaches</div>
+                    <div class="event-item">Carl membership weaponization</div>
+                </div>
+            </div>
+
+            <div class="supernova-card">
+                <h2>🌟 Supernova Event #2</h2>
+                <h3 style="color: #ff9f43; margin-bottom: 15px;">Intensification Phase</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Period:</span>
+                    <span class="stat-value">December 2024 - March 2025</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Duration:</span>
+                    <span class="stat-value">4 months</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Triggers:</span>
+                    <span class="stat-value">4</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Retaliations:</span>
+                    <span class="stat-value">21</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">ρ Ratio:</span>
+                    <span class="stat-value" style="font-size: 1.5em; color: #ffd700;">5.25:1</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Escalation vs Baseline:</span>
+                    <span class="stat-value" style="color: #ff6b6b;">+241%</span>
+                </div>
+                <div class="event-list">
+                    <strong style="color: #ffd700;">Key Trigger Events:</strong>
+                    <div class="event-item">Democratic GMM - Board removal via member vote</div>
+                    <div class="event-item">CHFT/Agency coordination initiated</div>
+                </div>
+                <div class="event-list">
+                    <strong style="color: #ff6b6b;">Retaliation Cascade:</strong>
+                    <div class="event-item">Agency intervention to reverse democratic decision</div>
+                    <div class="event-item">Forced GMM on Feb 19, 2025</div>
+                    <div class="event-item">Ballot destruction (within 1 week)</div>
+                    <div class="event-item">Stedmond exclusion from consultations</div>
+                    <div class="event-item">Continued audit withholding</div>
+                    <div class="event-item">Multiple procedural manipulations</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2 style="margin-bottom: 20px; color: #ccd6f6;">Comparative Phase Analysis</h2>
+            <div id="comparisonChart"></div>
+        </div>
+
+        <div class="chart-container">
+            <h2 style="margin-bottom: 20px; color: #ccd6f6;">Retaliation Intensity Over Time</h2>
+            <div id="intensityChart"></div>
+        </div>
+
+        <div class="warning-box">
+            <h3>🎯 Legal Significance</h3>
+            <p><strong>Both Supernova events occurred immediately after democratic or oversight actions:</strong></p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li style="margin: 8px 0;">Supernova #1: Response to CHFT complaint (external oversight)</li>
+                <li style="margin: 8px 0;">Supernova #2: Response to democratic board removal (member empowerment)</li>
+            </ul>
+            <p style="margin-top: 15px; font-weight: bold; color: #ffd700;">
+                This pattern demonstrates that the organization's greatest retaliation capacity is deployed 
+                specifically when members exercise democratic rights or seek external accountability.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const phases = [{"phase": "Foundation", "period": "Sept 2022 - Jul 2023", "duration_months": 11, "triggers": 5, "retaliations": 8, "rho_ratio": 1.6, "status": "Baseline institutional capture", "key_events": ["Helen McGarry board control", "Sean election as director"]}, {"phase": "Whistleblowing", "period": "Aug 2023 - Jan 2024", "duration_months": 6, "triggers": 2, "retaliations": 12, "rho_ratio": 6.0, "status": "SUPERNOVA EVENT #1", "key_events": ["CHFT complaint filed", "Extortion threats", "BCA crisis manufactured"], "escalation_percentage": 275}, {"phase": "Democratic Challenge", "period": "Feb 2024 - Nov 2024", "duration_months": 10, "triggers": 8, "retaliations": 10, "rho_ratio": 1.25, "status": "Democratic resistance", "key_events": ["Board elections", "Democratic GMM", "Carl membership challenge"]}, {"phase": "Intensification", "period": "Dec 2024 - Mar 2025", "duration_months": 4, "triggers": 4, "retaliations": 21, "rho_ratio": 5.25, "status": "SUPERNOVA EVENT #2", "key_events": ["Agency intervention", "GMM reversal", "Ballot destruction"], "escalation_percentage": 241}, {"phase": "Authority Assertion", "period": "Apr 2025 - Nov 2025", "duration_months": 8, "triggers": 11, "retaliations": 14, "rho_ratio": 1.27, "status": "Ongoing crisis", "key_events": ["Termination theater", "Audit suppression", "Hackl ambush"]}];
+
+        // Comparison chart
+        const comparisonData = [{
+            x: phases.map(p => p.phase),
+            y: phases.map(p => p.triggers),
+            name: 'Triggers',
+            type: 'bar',
+            marker: { color: '#4facfe' }
+        }, {
+            x: phases.map(p => p.phase),
+            y: phases.map(p => p.retaliations),
+            name: 'Retaliations',
+            type: 'bar',
+            marker: { color: '#ff6b6b' }
+        }];
+
+        const comparisonLayout = {
+            barmode: 'group',
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: '#e0e6ed', size: 13 },
+            yaxis: {
+                title: 'Count',
+                gridcolor: 'rgba(255,255,255,0.1)'
+            },
+            xaxis: { gridcolor: 'rgba(255,255,255,0.1)' },
+            legend: {
+                x: 0.02,
+                y: 0.98,
+                bgcolor: 'rgba(0,0,0,0.5)',
+                bordercolor: 'rgba(255,255,255,0.2)',
+                borderwidth: 1
+            },
+            height: 400
+        };
+
+        Plotly.newPlot('comparisonChart', comparisonData, comparisonLayout, {responsive: true});
+
+        // Intensity heatmap
+        const intensityData = [{
+            x: phases.map(p => p.phase),
+            y: ['Retaliation Intensity'],
+            z: [phases.map(p => p.rho_ratio)],
+            type: 'heatmap',
+            colorscale: [
+                [0, '#54a0ff'],
+                [0.3, '#ff9f43'],
+                [0.6, '#ff6b6b'],
+                [1, '#ffd700']
+            ],
+            text: phases.map(p => `${p.rho_ratio}:1`),
+            texttemplate: '%{text}',
+            textfont: { size: 16, color: '#fff' },
+            showscale: true,
+            colorbar: {
+                title: 'ρ Ratio',
+                titleside: 'right',
+                tickmode: 'linear',
+                tick0: 0,
+                dtick: 1
+            }
+        }];
+
+        const intensityLayout = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: '#e0e6ed', size: 13 },
+            xaxis: { side: 'bottom' },
+            yaxis: { autorange: 'reversed' },
+            height: 200,
+            margin: { l: 150, r: 150, t: 50, b: 100 }
+        };
+
+        Plotly.newPlot('intensityChart', intensityData, intensityLayout, {responsive: true});
+    </script>
+</body>
+</html>
