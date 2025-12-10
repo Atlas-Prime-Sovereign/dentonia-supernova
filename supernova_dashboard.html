@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supernova v2.0 - Complete Analysis Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+        }
+
+        .metric-card {
+            background: rgba(51, 65, 85, 0.3);
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin: 30px 0;
+            border-bottom: 1px solid #334155;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tab-button:hover {
+            color: #60a5fa;
+        }
+
+        .tab-button.active {
+            color: #60a5fa;
+            border-bottom-color: #60a5fa;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .visualization-container {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            min-height: 600px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #60a5fa;
+        }
+
+        iframe {
+            width: 100%;
+            height: 700px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #64748b;
+            border-top: 1px solid #334155;
+            margin-top: 50px;
+        }
+
+        .data-summary {
+            background: rgba(51, 65, 85, 0.3);
+            border-left: 4px solid #60a5fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .data-summary h3 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .data-summary p {
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌌 Supernova v2.0</h1>
+            <p class="subtitle">Institutional Capture Analysis Dashboard</p>
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">30</div>
+                    <div class="metric-label">Triggers</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">64</div>
+                    <div class="metric-label">Retaliations</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2.13</div>
+                    <div class="metric-label">P-Ratio</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">39</div>
+                    <div class="metric-label">Months</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">Aug 2022 - Nov 2025</div>
+                    <div class="metric-label">Timeline</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('overview')">📊 Overview</button>
+            <button class="tab-button" onclick="switchTab('flow')">🔗 Trigger-Response Flow</button>
+            <button class="tab-button" onclick="switchTab('arc')">📈 Energy Arc</button>
+            <button class="tab-button" onclick="switchTab('sunburst')">🌳 Bifurcation</button>
+            <button class="tab-button" onclick="switchTab('network')">🕸️ Hub & Spoke</button>
+        </div>
+
+        <!-- TAB 1: Overview -->
+        <div id="overview" class="tab-content active">
+            <div class="visualization-container">
+                <h2 class="section-title">📊 Executive Summary</h2>
+                <div class="data-summary">
+                    <h3>Supernova v2.0 Analysis</h3>
+                    <p><strong>Dataset:</strong> 30 democratic triggers, 64 documented retaliations</p>
+                    <p><strong>P-Ratio (Proportionality Index):</strong> 2.13:1 - indicating sustained institutional capture</p>
+                    <p><strong>Timeline:</strong> 39 months (August 2022 - November 2025)</p>
+                    <p><strong>Threshold:</strong> Exceeds Co-operative Corporations Act s.171 intervention threshold (≥ 2.0)</p>
+                    <p><strong>Key Finding:</strong> Every legitimate member action triggered at least one retaliatory response, with an average amplification of 2.13x.</p>
+                </div>
+                <h3 style="color: #60a5fa; margin-top: 30px;">Navigate Using Tabs Above</h3>
+                <p style="color: #94a3b8; margin-top: 10px;">
+                    Use the tabs at the top to explore different visualizations:<br>
+                    • <strong>Trigger-Response Flow:</strong> Sankey diagram showing connections<br>
+                    • <strong>Energy Arc:</strong> Timeline visualization of escalation<br>
+                    • <strong>Bifurcation:</strong> System collapse breakdown (Sunburst)<br>
+                    • <strong>Hub & Spoke:</strong> Network analysis of coordination
+                </p>
+            </div>
+        </div>
+
+        <!-- TAB 2: Trigger-Response Flow -->
+        <div id="flow" class="tab-content">
+            <div class="visualization-container">
+                <h2 class="section-title">🔗 Trigger-Response Flow Chart</h2>
+                <p style="color: #94a3b8; margin-bottom: 15px;">Sankey diagram showing how democratic actions trigger retaliatory responses</p>
+                <iframe src="trigger_retaliation_mapping.html"></iframe>
+            </div>
+        </div>
+
+        <!-- TAB 3: Energy Arc -->
+        <div id="arc" class="tab-content">
+            <div class="visualization-container">
+                <h2 class="section-title">📈 Energy Arc Timeline</h2>
+                <p style="color: #94a3b8; margin-bottom: 15px;">Timeline visualization of escalation phases and institutional breakdown</p>
+                <iframe src="supernova_retaliation_arc.html"></iframe>
+            </div>
+        </div>
+
+        <!-- TAB 4: Sunburst (Bifurcation) -->
+        <div id="sunburst" class="tab-content">
+            <div class="visualization-container">
+                <h2 class="section-title">🌳 System Bifurcation Analysis</h2>
+                <p style="color: #94a3b8; margin-bottom: 15px;">Hierarchical breakdown of 81 documented institutional violations</p>
+                <iframe src="supernova_sunburst.html"></iframe>
+            </div>
+        </div>
+
+        <!-- TAB 5: Hub & Spoke Network -->
+        <div id="network" class="tab-content">
+            <div class="visualization-container">
+                <h2 class="section-title">🕸️ Hub & Spoke Institutional Network</h2>
+                <p style="color: #94a3b8; margin-bottom: 15px;">Network analysis showing institutional coordination patterns</p>
+                <iframe src="supernova_emergent_systems.html"></iframe>
+            </div>
+        </div>
+
+        <footer>
+            <p>Supernova v2.0 Analysis | Updated November 2025</p>
+            <p style="font-size: 12px; margin-top: 10px;">Data: 30 Triggers × 2.13 = 64 Retaliations | 39-Month Timeline</p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Highlight selected button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
